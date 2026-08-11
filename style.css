@@ -1,0 +1,999 @@
+/* =========================================
+   COULEURS DU CLASSEMENT
+   ========================================= */
+
+.classement tr.vert-fonce td {
+    border-top: 4px solid #006400 !important;
+    border-bottom: 4px solid #006400 !important;
+}
+
+.classement tr.vert-fonce td:first-child {
+    border-left: 4px solid #006400 !important;
+}
+
+.classement tr.vert-fonce td:last-child {
+    border-right: 4px solid #006400 !important;
+}
+
+
+.classement tr.vert-clair td {
+    border-top: 4px solid #7CFC00 !important;
+    border-bottom: 4px solid #7CFC00 !important;
+}
+
+.classement tr.vert-clair td:first-child {
+    border-left: 4px solid #7CFC00 !important;
+}
+
+.classement tr.vert-clair td:last-child {
+    border-right: 4px solid #7CFC00 !important;
+}
+
+
+.classement tr.orange td {
+    border-top: 4px solid #FFA500 !important;
+    border-bottom: 4px solid #FFA500 !important;
+}
+
+.classement tr.orange td:first-child {
+    border-left: 4px solid #FFA500 !important;
+}
+
+.classement tr.orange td:last-child {
+    border-right: 4px solid #FFA500 !important;
+}
+
+
+.classement tr.rouge td {
+    border-top: 4px solid #FF0000 !important;
+    border-bottom: 4px solid #FF0000 !important;
+}
+
+.classement tr.rouge td:first-child {
+    border-left: 4px solid #FF0000 !important;
+}
+
+.classement tr.rouge td:last-child {
+    border-right: 4px solid #FF0000 !important;
+}
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 15px;   
+    font-size: 18px;
+}
+
+th, td {
+    text-align: center;
+    padding: 12px 10px;
+}
+
+table, th, td {
+    border: none;
+}
+
+tr {
+    background-color: #f5f5f5;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
+
+thead tr {
+    background-color: #2b7a0b; 
+    color: white;
+    font-weight: normal; 
+    box-shadow: none;
+    border-radius: 10px 10px 0 0;
+}
+
+th {
+    padding: 15px 10px;
+    font-weight: normal; 
+}
+
+
+td img {
+    vertical-align: middle;
+    border-radius: 0;
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
+
+td {
+    background-color: #fff;
+    margin: 10px;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+
+td .match {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+tr:hover td {
+    transform: translateY(-3px);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+/* compétition */
+.amical {
+    border-left: 6px solid red !important;
+}
+
+.championnat {
+    border-left: 6px solid blue !important;
+}
+
+/* domicile / extérieur */
+.domicile {
+    border-right: 6px solid green !important;
+}
+
+.exterieur {
+    border-right: 6px solid orange !important;
+}
+
+/* =========================================================
+   MENU
+   ========================================================= */
+
+.menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #027D43;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    z-index: 1000;
+}
+
+.hamburger {
+    display: none;
+}
+
+.menu li {
+    position: relative;
+    margin: 0 25px;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   SOULIGNEMENT MENU PRINCIPAL
+   ========================================================= */
+
+.menu > li:not(.logo-li) > a {
+    position: relative;
+    display: inline-block;
+    width: fit-content;
+}
+
+.menu > li:not(.logo-li) > a::before {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: white;
+    transition: width 0.3s ease;
+}
+
+.menu > li:not(.logo-li) > a:hover::before {
+    width: 100%;
+}
+
+
+/* =========================================================
+   SOUS-MENU
+   ========================================================= */
+
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #027D43;
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    min-width: 180px;
+    z-index: 3000;
+}
+
+.submenu li {
+    padding: 8px 15px;
+    margin: 0;
+}
+
+.submenu li a {
+    color: white;
+    position: relative;
+    display: inline-block;
+    width: auto;
+    white-space: nowrap;
+}
+
+
+/* Soulignement du sous-menu */
+
+.submenu li a::before {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: white;
+    transition: width 0.3s ease;
+}
+
+.submenu li a:hover::before {
+    width: 100%;
+}
+
+
+/* =========================================================
+   FLÈCHES
+   ========================================================= */
+
+.dropdown > a::after {
+    content: "▼";
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 12px;
+    transition: transform 0.3s ease;
+}
+
+.dropdown.active > a::after {
+    transform: rotate(180deg);
+}
+
+.dropdown.active .submenu {
+    display: block;
+}
+
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+.logo {
+    height: 50px;
+}
+
+
+/* =========================================================
+   POLICES
+   ========================================================= */
+
+h1,
+h2,
+h3 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    text-align: center;
+}
+
+
+/* =========================================================
+   BODY
+   ========================================================= */
+
+body {
+    padding-top: 80px;
+    font-family: 'Montserrat', sans-serif;
+
+    background-image: url("images/fond.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+ul.dates {
+    list-style: none;
+    display: flex;
+	justify-content: center;
+    flex-wrap: wrap;        
+    gap: 15px;
+	margin: 10px auto 30px auto;
+    margin-top: 10px;
+    padding: 0;
+    max-width: 250px;    
+	font-size: 20px;
+	color: #006400;
+}
+
+ul.dates li {
+    background-color: white;
+    color: #027D43;
+    padding: 8px 12px;     
+    margin: 5px 0;           
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 22px;         
+    min-width: 50px;         
+}
+
+/* =========================================================
+   CARTES
+   ========================================================= */
+
+.ligne-trophee {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+    width: 90%;
+    max-width: 1000px;
+
+    margin: 30px auto;
+    padding: 20px;
+
+    background-color: #f5f5dc;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.2);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+/* Carte normale :
+   IMAGE | TEXTE
+*/
+
+
+/* Carte reverse :
+   TEXTE | IMAGE
+*/
+
+.ligne-trophee.reverse {
+    flex-direction: row-reverse;
+}
+
+
+/* Animation de la carte */
+
+.ligne-trophee:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Animation image */
+
+.ligne-trophee:hover .icone-trophee {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+
+/* =========================================================
+   IMAGES DES CARTES
+   ========================================================= */
+
+.ligne-trophee img {
+    max-width: 45%;
+    height: auto;
+
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   ICÔNES / IMAGES
+   ========================================================= */
+
+.icone-trophee {
+    width: 300px;
+    height: auto;
+
+    margin-left: 20px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
+}
+
+.icone-trophee:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+
+/* =========================================================
+   TEXTE DES CARTES
+   ========================================================= */
+
+.card-text {
+    width: 50%;
+    padding: 0 20px;
+
+    box-sizing: border-box;
+
+    flex: 1;
+}
+
+
+/* =========================================================
+   CANVAS CONFETTIS / STADE
+   ========================================================= */
+
+#confetti-canvas {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+
+    z-index: 99999;
+}
+
+
+/* =========================================================
+   BOUTON STOP
+   ========================================================= */
+
+#stop-music {
+    padding: 10px 20px;
+
+    font-size: 16px;
+
+    background-color: #006600;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    margin: 20px;
+
+    display: none;
+}
+
+#stop-music:hover {
+    background-color: #009900;
+}
+
+
+/* =========================================================
+   VERSION MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+	
+	.classement {
+        width: 100%;
+        font-size: 13px;
+        border-spacing: 0 8px;
+    }
+
+    /* Cacher les titres */
+    .classement thead {
+        display: none;
+    }
+
+    /* Chaque équipe = une carte */
+    .classement tbody tr {
+        display: grid;
+        grid-template-columns: 35px 45px 1fr 45px;
+        align-items: center;
+
+        width: 100%;
+        min-height: 55px;
+
+        margin-bottom: 8px;
+
+        box-sizing: border-box;
+
+        background-color: #f5f5f5;
+
+        border-radius: 10px;
+
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    /* =================================================
+       CELLULES
+       ================================================= */
+
+    .classement tbody td {
+        display: block;
+
+        padding: 7px 3px;
+
+        border: none !important;
+
+        text-align: center;
+
+        box-sizing: border-box;
+    }
+
+    /* Position */
+
+    .classement tbody td:nth-child(1) {
+
+        font-size: 15px;
+        font-weight: bold;
+
+    }
+
+
+    /* Logo */
+
+    .classement tbody td:nth-child(2) {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .classement tbody td:nth-child(2) img {
+
+        width: 30px;
+        height: 30px;
+
+        object-fit: contain;
+
+    }
+
+
+    /* Nom */
+
+    .classement tbody td:nth-child(3) {
+
+        text-align: left;
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        padding-left: 5px;
+
+    }
+
+
+    /* Points */
+
+    .classement tbody td:nth-child(4) {
+
+        font-size: 15px;
+
+        font-weight: bold;
+
+    }
+
+
+    /* Cacher J V N D BP BC Diff */
+
+    .classement tbody td:nth-child(n+5) {
+
+        display: none;
+
+    }
+
+
+    /* =================================================
+       🟢 1er / 2e
+       ================================================= */
+
+    .classement tbody tr.vert-fonce {
+
+        border: 3px solid #006400 !important;
+
+    }
+
+
+    /* =================================================
+       🟢 3e / 4e / 5e
+       ================================================= */
+
+    .classement tbody tr.vert-clair {
+
+        border: 3px solid #7CFC00 !important;
+
+    }
+
+
+    /* =================================================
+       🟠 16e
+       ================================================= */
+
+    .classement tbody tr.orange {
+
+        border: 3px solid #FFA500 !important;
+
+    }
+
+
+    /* =================================================
+       🔴 17e / 18e
+       ================================================= */
+
+    .classement tbody tr.rouge {
+
+        border: 3px solid #FF0000 !important;
+
+    }
+
+    /* =====================================================
+       TABLEAU MOBILE
+       ===================================================== */
+
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 8px;
+        table-layout: fixed;
+    }
+
+    thead {
+        display: none;
+    }
+
+    tbody,
+    tr {
+        display: block;
+        width: 100%;
+    }
+
+    tr {
+        margin: 0 0 10px 0;
+        padding: 0;
+    }
+
+    td {
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 40px;
+
+        display: flex;
+        align-items: center;
+
+        text-align: left;
+
+        padding: 8px 10px;
+
+        font-size: 14px;
+
+        margin: 0 0 4px 0;
+
+        border-radius: 8px;
+
+        background-color: #f5f5f5;
+
+        gap: 6px;
+
+        overflow: hidden;
+    }
+
+    td img {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        flex-shrink: 0;
+    }
+
+    td span.label {
+        font-weight: bold;
+        font-size: 12px;
+        flex: 0 0 auto;
+    }
+
+    td span.value {
+        flex: 1;
+        min-width: 0;
+    }
+
+
+    /* =====================================================
+       SCORE
+       ===================================================== */
+
+    td .score {
+        font-size: 18px;
+        font-weight: bold;
+        margin-left: auto;
+        margin-right: 5px;
+    }
+
+
+    /* =====================================================
+       BARRE DU MENU
+       ===================================================== */
+
+    .menu {
+        height: 70px;
+        width: 100%;
+        padding: 0;
+        display: block;
+        box-sizing: border-box;
+    }
+
+
+    /* =====================================================
+       HAMBURGER
+       ===================================================== */
+
+    .hamburger {
+        display: flex;
+
+        flex-direction: column;
+        justify-content: center;
+
+        gap: 5px;
+
+        position: fixed;
+
+        top: 15px;
+        left: 15px;
+
+        width: 40px;
+        height: 40px;
+
+        padding: 5px;
+
+        background: transparent;
+
+        border: none;
+
+        cursor: pointer;
+
+        z-index: 4000;
+    }
+
+    .hamburger span {
+        display: block;
+
+        width: 28px;
+        height: 3px;
+
+        background-color: white;
+
+        border-radius: 2px;
+    }
+
+
+    /* =====================================================
+       LOGO
+       ===================================================== */
+
+    .menu .logo-li {
+        display: block;
+
+        position: fixed;
+
+        top: 10px;
+        left: 50%;
+
+        transform: translateX(-50%);
+
+        margin: 0;
+
+        z-index: 3500;
+    }
+
+    .logo {
+        height: 50px;
+    }
+
+
+    /* =====================================================
+       MENU FERMÉ
+       ===================================================== */
+
+    .menu > li:not(.logo-li) {
+        display: none;
+    }
+
+
+    /* =====================================================
+       MENU OUVERT
+       ===================================================== */
+
+    .menu.active {
+        height: 100vh;
+
+        min-height: 100vh;
+
+        padding-top: 85px;
+        padding-left: 25px;
+
+        display: block;
+    }
+
+
+    /* =====================================================
+       ÉLÉMENTS PRINCIPAUX
+       ===================================================== */
+
+    .menu.active > li:not(.logo-li) {
+        display: block;
+
+        margin: 20px 0;
+
+        text-align: left;
+    }
+
+    .menu.active > li > a {
+        display: inline-block;
+
+        width: fit-content;
+
+        text-align: left;
+    }
+
+
+    /* =====================================================
+       SOUS-MENU MOBILE
+       ===================================================== */
+
+    .menu.active .dropdown {
+        position: relative;
+    }
+
+    .menu.active .dropdown .submenu {
+        position: absolute;
+
+        top: -10px;
+        left: 140px;
+
+        display: none;
+
+        min-width: 180px;
+
+        padding: 10px 0;
+
+        background-color: #027D43;
+
+        z-index: 5000;
+    }
+
+
+    /* Sous-menu ouvert */
+
+    .menu.active .dropdown.active .submenu {
+        display: block;
+    }
+
+
+    /* Éléments du sous-menu */
+
+    .menu.active .submenu li {
+        display: block;
+
+        margin: 0;
+
+        padding: 8px 10px;
+
+        text-align: left;
+    }
+
+    .menu.active .submenu li a {
+        display: inline-block;
+
+        position: relative;
+
+        width: auto;
+
+        white-space: nowrap;
+
+        z-index: 5001;
+    }
+
+
+    /* =====================================================
+       FLÈCHE MOBILE
+       ===================================================== */
+
+    .dropdown > a::after {
+        margin-left: 8px;
+    }
+
+
+    /* =====================================================
+       CARTES MOBILE
+       ===================================================== */
+
+    .ligne-trophee {
+        flex-direction: column;
+
+        text-align: center;
+
+        width: 90%;
+
+        padding: 20px 10px;
+
+        margin: 25px auto;
+
+        box-sizing: border-box;
+    }
+
+
+    /* IMPORTANT :
+       Même disposition pour les reverse */
+
+    .ligne-trophee.reverse {
+        flex-direction: column;
+    }
+
+
+    /* Image TOUJOURS au-dessus du texte */
+
+    .ligne-trophee img {
+        max-width: 100%;
+
+        height: auto;
+
+        object-fit: contain;
+
+        order: -1;
+    }
+
+
+    /* =====================================================
+       ICÔNES MOBILE
+       ===================================================== */
+
+    .icone-trophee {
+        width: 80%;
+
+        max-width: 300px;
+
+        margin-left: 0;
+    }
+
+
+    /* =====================================================
+       TEXTE MOBILE
+       ===================================================== */
+
+    .card-text {
+        width: 100%;
+
+        padding: 0;
+    }
+}

@@ -1,0 +1,1054 @@
+document.addEventListener("DOMContentLoaded", () => {
+
+    /* =====================================================
+       MENUS DÉROULANTS
+       ===================================================== */
+
+    document.querySelectorAll(".dropdown > a").forEach(link => {
+
+        link.addEventListener("click", function (e) {
+
+            e.preventDefault();
+
+            const parent = this.parentElement;
+
+            /* Ferme les autres menus */
+            document.querySelectorAll(".dropdown").forEach(item => {
+
+                if (item !== parent) {
+                    item.classList.remove("active");
+                }
+
+            });
+
+            /* Ouvre / ferme le menu */
+            parent.classList.toggle("active");
+
+        });
+
+    });
+
+
+    /* =====================================================
+       MENU HAMBURGER MOBILE
+       ===================================================== */
+
+    const hamburger = document.getElementById("hamburger");
+    const menu = document.querySelector(".menu");
+
+    if (hamburger && menu) {
+
+        hamburger.addEventListener("click", () => {
+
+            menu.classList.toggle("active");
+
+        });
+
+    }
+
+
+    /* =====================================================
+       GALERIE / POPUP IMAGE
+       ===================================================== */
+
+    const images = document.querySelectorAll(".popup-image");
+    const popup = document.getElementById("popup");
+    const popupImg = document.getElementById("popup-img");
+
+    if (popup && popupImg) {
+
+        images.forEach(img => {
+
+            img.addEventListener("click", () => {
+
+                popup.style.display = "flex";
+                popupImg.src = img.src;
+
+            });
+
+        });
+
+        popup.addEventListener("click", () => {
+
+            popup.style.display = "none";
+
+        });
+
+    }
+
+
+    /* =====================================================
+       MUSIQUES
+       ===================================================== */
+
+    const musiqueConfettis = new Audio(
+        "son/allez-les-verts-hymne-officiel-asse_WJTrc4OS.mp3"
+    );
+
+    const musiqueConcert = new Audio(
+        "son/Désenchantée.mp3"
+    );
+
+    musiqueConfettis.volume = 1;
+    musiqueConcert.volume = 1;
+
+
+    /* =====================================================
+       CANVAS
+       ===================================================== */
+
+    const canvas =
+        document.getElementById("confetti-canvas");
+
+    let ctx = null;
+
+    if (canvas) {
+
+        ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+    }
+
+
+    /* =====================================================
+       VARIABLES
+       ===================================================== */
+
+    let confetti = [];
+
+    let confettiActive = false;
+
+    let concertActive = false;
+
+    let animationConcert = null;
+
+    let concertStartTime = 0;
+
+    const confettiCount = 150;
+
+
+    /* =====================================================
+       BOUTON STOP
+       ===================================================== */
+
+    const stopMusicBtn =
+        document.getElementById("stop-music");
+
+    /* Caché au démarrage */
+
+    if (stopMusicBtn) {
+
+        stopMusicBtn.style.display = "none";
+
+    }
+
+
+    /* =====================================================
+       FONCTION ALÉATOIRE
+       ===================================================== */
+
+    function randomRange(min, max) {
+
+        return Math.random() * (max - min) + min;
+
+    }
+
+
+    /* =====================================================
+       🎉 CONFETTIS
+       ===================================================== */
+
+    function initConfetti() {
+
+        confetti = [];
+
+        for (let i = 0; i < confettiCount; i++) {
+
+            let colorRand = Math.random();
+
+            let color;
+
+            if (colorRand < 0.6) {
+
+                color = "green";
+
+            } else if (colorRand < 0.8) {
+
+                color = "gold";
+
+            } else {
+
+                color = "white";
+
+            }
+
+
+            confetti.push({
+
+                x:
+                    Math.random() *
+                    canvas.width,
+
+                y:
+                    Math.random() *
+                    canvas.height -
+                    canvas.height,
+
+                r:
+                    randomRange(2, 6),
+
+                d:
+                    randomRange(
+                        1,
+                        confettiCount
+                    ),
+
+                color: color,
+
+                tilt:
+                    randomRange(
+                        -10,
+                        10
+                    ),
+
+                tiltAngleIncrement:
+                    randomRange(
+                        0.05,
+                        0.12
+                    ),
+
+                tiltAngle: 0
+
+            });
+
+        }
+
+    }
+
+
+    function drawConfetti() {
+
+        if (!confettiActive || !ctx) {
+
+            return;
+
+        }
+
+        ctx.clearRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+
+        confetti.forEach(c => {
+
+            ctx.beginPath();
+
+            ctx.lineWidth = c.r;
+
+            ctx.strokeStyle = c.color;
+
+            ctx.moveTo(
+
+                c.x +
+                c.tilt +
+                c.r / 2,
+
+                c.y
+
+            );
+
+            ctx.lineTo(
+
+                c.x +
+                c.tilt,
+
+                c.y +
+                c.tilt +
+                c.r / 2
+
+            );
+
+            ctx.stroke();
+
+        });
+
+
+        updateConfetti();
+
+    }
+
+
+    function updateConfetti() {
+
+        confetti.forEach(c => {
+
+            c.tiltAngle +=
+                c.tiltAngleIncrement;
+
+            c.y +=
+                (
+                    Math.cos(c.d) +
+                    3 +
+                    c.r / 2
+                ) / 2;
+
+            c.tilt =
+                Math.sin(
+                    c.tiltAngle
+                ) * 15;
+
+
+            if (c.y > canvas.height) {
+
+                c.y = -10;
+
+                c.x =
+                    Math.random() *
+                    canvas.width;
+
+            }
+
+        });
+
+
+        requestAnimationFrame(
+            drawConfetti
+        );
+
+    }
+
+
+    /* =====================================================
+       ⚽ MODE STADE / CONCERT
+       ===================================================== */
+
+    const lumieres = [];
+
+
+    /* =====================================================
+       CRÉER LES TÉLÉPHONES
+       ===================================================== */
+
+    function creerLumieres() {
+
+        lumieres.length = 0;
+
+        const nombre = 250;
+
+
+        for (let i = 0; i < nombre; i++) {
+
+            lumieres.push({
+
+                /* Position initiale */
+
+                x:
+                    Math.random() *
+                    window.innerWidth,
+
+                y:
+                    Math.random() *
+                    window.innerHeight,
+
+
+                /* Taille du téléphone */
+
+                taille:
+                    randomRange(
+                        1.2,
+                        2.5
+                    ),
+
+
+                /* Amplitude du mouvement */
+
+                rayon:
+                    randomRange(
+                        30,
+                        70
+                    ),
+
+
+                /* Vitesse */
+
+                vitesse:
+                    randomRange(
+                        0.018,
+                        0.045
+                    ),
+
+
+                /* Position dans l'arc */
+
+                angle:
+                    Math.random() *
+                    Math.PI *
+                    2,
+
+
+                /* Décalage */
+
+                phase:
+                    Math.random() *
+                    Math.PI *
+                    2,
+
+
+                /* Luminosité */
+
+                opacite:
+                    randomRange(
+                        0.45,
+                        1
+                    )
+
+            });
+
+        }
+
+    }
+
+
+    /* =====================================================
+       DESSIN DU STADE
+       ===================================================== */
+
+    function dessinerConcert() {
+
+        if (!concertActive || !ctx) {
+
+            return;
+
+        }
+
+
+        /* Temps écoulé */
+
+        const temps =
+            (
+                performance.now() -
+                concertStartTime
+            ) / 1000;
+
+
+        /* =================================================
+           VOILE NOIR
+           ================================================= */
+
+        ctx.clearRect(
+
+            0,
+            0,
+
+            canvas.width,
+            canvas.height
+
+        );
+
+
+        /*
+           Fond très sombre.
+           Les lumières apparaissent par-dessus.
+        */
+
+        ctx.fillStyle =
+            "rgba(0, 0, 0, 0.94)";
+
+
+        ctx.fillRect(
+
+            0,
+            0,
+
+            canvas.width,
+            canvas.height
+
+        );
+
+
+        /* =================================================
+           TÉLÉPHONES
+           ================================================= */
+
+        lumieres.forEach((lumiere, index) => {
+
+
+            /* =============================================
+               APPARITION PROGRESSIVE
+               ============================================= */
+
+            /*
+               Chaque téléphone s'allume
+               progressivement pendant les
+               15 premières secondes.
+            */
+
+            const debutLumiere =
+                (
+                    index /
+                    lumieres.length
+                ) * 15;
+
+
+            if (temps < debutLumiere) {
+
+                return;
+
+            }
+
+
+            /*
+               Apparition douce sur 2 secondes.
+            */
+
+            let puissance =
+                (
+                    temps -
+                    debutLumiere
+                ) / 2;
+
+
+            if (puissance > 1) {
+
+                puissance = 1;
+
+            }
+
+
+            /* =============================================
+               MOUVEMENT EN ARC
+               ============================================= */
+
+            /*
+               Le téléphone va :
+
+               GAUCHE
+                    ↓
+               CENTRE
+                    ↓
+               DROITE
+                    ↓
+               CENTRE
+                    ↓
+               GAUCHE
+
+               puis recommence.
+            */
+
+            lumiere.angle +=
+                lumiere.vitesse;
+
+
+            const mouvementX =
+                Math.sin(
+                    lumiere.angle +
+                    lumiere.phase
+                ) *
+                lumiere.rayon;
+
+
+            /*
+               Petit mouvement vertical
+               pour donner un vrai arc.
+            */
+
+            const mouvementY =
+                Math.sin(
+                    (
+                        lumiere.angle +
+                        lumiere.phase
+                    ) * 2
+                ) * 12;
+
+
+            const x =
+                lumiere.x +
+                mouvementX;
+
+
+            const y =
+                lumiere.y +
+                mouvementY;
+
+
+            /* =============================================
+               SCINTILLEMENT
+               ============================================= */
+
+            const scintillement =
+                0.8 +
+                Math.sin(
+                    lumiere.angle * 4
+                ) * 0.2;
+
+
+            const opacite =
+                lumiere.opacite *
+                puissance *
+                scintillement;
+
+
+            /* =============================================
+               HALO DE LUMIÈRE
+               ============================================= */
+
+            const gradient =
+                ctx.createRadialGradient(
+
+                    x,
+                    y,
+                    0,
+
+                    x,
+                    y,
+
+                    lumiere.taille * 5
+
+                );
+
+
+            gradient.addColorStop(
+
+                0,
+
+                `rgba(
+                    255,
+                    255,
+                    255,
+                    ${opacite}
+                )`
+
+            );
+
+
+            gradient.addColorStop(
+
+                0.25,
+
+                `rgba(
+                    255,
+                    255,
+                    255,
+                    ${opacite * 0.35}
+                )`
+
+            );
+
+
+            gradient.addColorStop(
+
+                1,
+
+                "rgba(255,255,255,0)"
+
+            );
+
+
+            ctx.fillStyle =
+                gradient;
+
+
+            ctx.beginPath();
+
+
+            ctx.arc(
+
+                x,
+                y,
+
+                lumiere.taille * 5,
+
+                0,
+                Math.PI * 2
+
+            );
+
+
+            ctx.fill();
+
+
+            /* =============================================
+               PETIT POINT BLANC
+               ============================================= */
+
+            ctx.beginPath();
+
+
+            ctx.fillStyle =
+                `rgba(
+                    255,
+                    255,
+                    255,
+                    ${opacite}
+                )`;
+
+
+            ctx.arc(
+
+                x,
+                y,
+
+                lumiere.taille,
+
+                0,
+                Math.PI * 2
+
+            );
+
+
+            ctx.fill();
+
+        });
+
+
+        /* =================================================
+           CONTINUER L'ANIMATION
+           ================================================= */
+
+        animationConcert =
+            requestAnimationFrame(
+                dessinerConcert
+            );
+
+    }
+
+
+    /* =====================================================
+       LANCER LE MODE STADE
+       ===================================================== */
+
+    function lancerConcert() {
+
+        concertActive = true;
+
+        concertStartTime =
+            performance.now();
+
+        creerLumieres();
+
+        dessinerConcert();
+
+    }
+
+
+    /* =====================================================
+       🛑 ARRÊTER TOUS LES EFFETS
+       ===================================================== */
+
+    function arreterTout() {
+
+        /* Arrêter les musiques */
+
+        musiqueConfettis.pause();
+
+        musiqueConfettis.currentTime = 0;
+
+
+        musiqueConcert.pause();
+
+        musiqueConcert.currentTime = 0;
+
+
+        /* Arrêter les animations */
+
+        confettiActive = false;
+
+        concertActive = false;
+
+
+        if (animationConcert) {
+
+            cancelAnimationFrame(
+                animationConcert
+            );
+
+            animationConcert = null;
+
+        }
+
+
+        /* Nettoyer le canvas */
+
+        if (ctx) {
+
+            ctx.clearRect(
+
+                0,
+                0,
+
+                canvas.width,
+                canvas.height
+
+            );
+
+        }
+
+
+        /* Cacher le bouton STOP */
+
+        if (stopMusicBtn) {
+
+            stopMusicBtn.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    /* =====================================================
+       🎲 CLIC SUR LE LOGO
+       ===================================================== */
+
+    const logo =
+        document.getElementById(
+            "logo-trigger"
+        );
+
+
+    if (logo && canvas) {
+
+        logo.addEventListener(
+            "click",
+            e => {
+
+                e.preventDefault();
+
+
+                /* Arrête ce qui pourrait déjà jouer */
+
+                arreterTout();
+
+
+                /* Choix aléatoire */
+
+                const choix =
+                    Math.random();
+
+
+                /* =================================================
+                   🎉 MODE CONFETTIS
+                   ================================================= */
+
+                if (choix < 0.5) {
+
+                    musiqueConfettis.currentTime = 0;
+
+                    musiqueConfettis.play();
+
+
+                    /* Afficher STOP */
+
+                    if (stopMusicBtn) {
+
+                        stopMusicBtn.style.display =
+                            "block";
+
+                    }
+
+
+                    confettiActive = true;
+
+                    initConfetti();
+
+                    drawConfetti();
+
+                }
+
+
+                /* =================================================
+                   ⚽ MODE STADE
+                   ================================================= */
+
+                else {
+
+                    musiqueConcert.currentTime = 0;
+
+                    musiqueConcert.play();
+
+
+                    /* Afficher STOP */
+
+                    if (stopMusicBtn) {
+
+                        stopMusicBtn.style.display =
+                            "block";
+
+                    }
+
+
+                    lancerConcert();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       ⏹️ BOUTON STOP
+       ===================================================== */
+
+    if (stopMusicBtn) {
+
+        stopMusicBtn.addEventListener(
+            "click",
+            () => {
+
+                arreterTout();
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       REDIMENSIONNEMENT
+       ===================================================== */
+
+    window.addEventListener("resize", () => {
+
+        if (!canvas) {
+            return;
+        }
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        if (concertActive) {
+            creerLumieres();
+        }
+
+    });
+
+
+    /* =====================================================
+       ⚽ TABLEAU
+       ===================================================== */
+
+    document.querySelectorAll("tbody tr").forEach(tr => {
+
+        let texte = tr.innerText.toLowerCase();
+
+        texte = texte
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
+
+        const tds = tr.querySelectorAll("td");
+
+
+
+        /* =================================================
+           ⚽ SAINT-ETIENNE
+           ================================================= */
+
+        if (
+            texte.includes("saint") &&
+            texte.includes("etienne") &&
+            texte.includes("vs")
+        ) {
+
+            let domicile =
+                texte.indexOf("saint") <
+                texte.indexOf("vs");
+
+
+            /* DATE + HEURE */
+
+            for (let i = 0; i <= 1; i++) {
+
+                if (tds[i]) {
+
+                    tds[i].style.background = "white";
+
+                    tds[i].style.color = "green";
+
+                    tds[i].style.animation = "none";
+
+                }
+
+            }
+
+
+            /* MATCH */
+
+            let matchCell = tds[2];
+
+            if (matchCell) {
+
+                matchCell.classList.add("degrade");
+
+
+                if (domicile) {
+
+                    matchCell.style.background =
+                        "linear-gradient(90deg, rgba(0,128,0,0.8), rgba(0,128,0,0.2), transparent)";
+
+                }
+                else {
+
+                    matchCell.style.background =
+                        "linear-gradient(90deg, rgba(255,165,0,0.8), rgba(255,165,0,0.2), transparent)";
+
+                }
+
+            }
+
+        }
+
+
+        /* =================================================
+           🏆 COMPETITION
+           ================================================= */
+
+        if (tds[3]) {
+
+            tds[3].classList.add("degrade");
+
+
+            if (texte.includes("amical")) {
+
+                tds[3].style.background =
+                    "linear-gradient(90deg, red, darkred)";
+
+                tds[3].style.color = "white";
+
+            }
+
+            else if (texte.includes("ligue")) {
+
+                tds[3].style.background =
+                    "linear-gradient(90deg, #A63DFF, #A53EFF)";
+
+                tds[3].style.color = "white";
+
+            }
+
+        }
+
+    });
+
+});
+
+const poteauxImg = document.querySelector('.poteaux-carres');
+
+poteauxImg.addEventListener('click', () => {
+    poteauxImg.src = 'gif/action poteaux carrés.gif'; 
+});
+
+const videoLinks = document.querySelectorAll('.video-link');
+
+videoLinks.forEach(img => {
+    img.addEventListener('click', () => {
+        const url = img.dataset.video;
+        window.open(url, '_blank'); 
+    });
+});
