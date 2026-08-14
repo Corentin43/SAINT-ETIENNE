@@ -704,20 +704,59 @@ ul.dates li {
     }
 	
 	.ligne-match {
-        flex-direction: column;
-        text-align: center;
-        padding: 20px;
-    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+	}
 
-    .photo-match {
-        width: 100%;
-        max-width: 350px;
-        height: 220px;
-    }
 
-    .card-text {
-        width: 100%;
-    }
+	/* TEXTE DU MATCH */
+
+	.card-text {
+		width: 100%;
+		padding: 0;
+		text-align: center;
+	}
+
+
+	/* SCORE */
+
+	.card-text h3 {
+		position: static !important;
+		transform: none !important;
+
+		margin: 15px 0 20px 0;
+
+		text-align: center;
+
+		white-space: normal;
+	}
+
+
+	/* DATE + COMPÉTITION */
+
+	.card-text p {
+		text-align: center;
+		margin: 8px 0;
+	}
+
+
+	/* PHOTO */
+
+	.galerie-match {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
+
+	.photo-match {
+		width: 100%;
+		max-width: 350px;
+		height: 220px;
+		object-fit: cover;
+	}
 	
 	.classement {
         width: 100%;
