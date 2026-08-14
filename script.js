@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       GALERIE / POPUP IMAGE
+       GALERIE / POPUP IMAGE CLASSIQUE
        ===================================================== */
 
     const images = document.querySelectorAll(".popup-image");
@@ -136,8 +136,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const stopMusicBtn =
         document.getElementById("stop-music");
 
-    /* Caché au démarrage */
-
     if (stopMusicBtn) {
 
         stopMusicBtn.style.display = "none";
@@ -161,6 +159,8 @@ document.addEventListener("DOMContentLoaded", () => {
        ===================================================== */
 
     function initConfetti() {
+
+        if (!canvas) return;
 
         confetti = [];
 
@@ -285,6 +285,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateConfetti() {
 
+        if (!canvas) return;
+
         confetti.forEach(c => {
 
             c.tiltAngle +=
@@ -336,6 +338,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function creerLumieres() {
 
+        if (!canvas) return;
+
         lumieres.length = 0;
 
         const nombre = 250;
@@ -345,8 +349,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             lumieres.push({
 
-                /* Position initiale */
-
                 x:
                     Math.random() *
                     window.innerWidth,
@@ -355,17 +357,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     Math.random() *
                     window.innerHeight,
 
-
-                /* Taille du téléphone */
-
                 taille:
                     randomRange(
                         1.2,
                         2.5
                     ),
-
-
-                /* Amplitude du mouvement */
 
                 rayon:
                     randomRange(
@@ -373,33 +369,21 @@ document.addEventListener("DOMContentLoaded", () => {
                         70
                     ),
 
-
-                /* Vitesse */
-
                 vitesse:
                     randomRange(
                         0.018,
                         0.045
                     ),
 
-
-                /* Position dans l'arc */
-
                 angle:
                     Math.random() *
                     Math.PI *
                     2,
 
-
-                /* Décalage */
-
                 phase:
                     Math.random() *
                     Math.PI *
                     2,
-
-
-                /* Luminosité */
 
                 opacite:
                     randomRange(
@@ -427,18 +411,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        /* Temps écoulé */
-
         const temps =
             (
                 performance.now() -
                 concertStartTime
             ) / 1000;
 
-
-        /* =================================================
-           VOILE NOIR
-           ================================================= */
 
         ctx.clearRect(
 
@@ -450,11 +428,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         );
 
-
-        /*
-           Fond très sombre.
-           Les lumières apparaissent par-dessus.
-        */
 
         ctx.fillStyle =
             "rgba(0, 0, 0, 0.94)";
@@ -471,22 +444,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-        /* =================================================
-           TÉLÉPHONES
-           ================================================= */
-
         lumieres.forEach((lumiere, index) => {
-
-
-            /* =============================================
-               APPARITION PROGRESSIVE
-               ============================================= */
-
-            /*
-               Chaque téléphone s'allume
-               progressivement pendant les
-               15 premières secondes.
-            */
 
             const debutLumiere =
                 (
@@ -502,10 +460,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            /*
-               Apparition douce sur 2 secondes.
-            */
-
             let puissance =
                 (
                     temps -
@@ -520,26 +474,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            /* =============================================
-               MOUVEMENT EN ARC
-               ============================================= */
-
-            /*
-               Le téléphone va :
-
-               GAUCHE
-                    ↓
-               CENTRE
-                    ↓
-               DROITE
-                    ↓
-               CENTRE
-                    ↓
-               GAUCHE
-
-               puis recommence.
-            */
-
             lumiere.angle +=
                 lumiere.vitesse;
 
@@ -551,11 +485,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 ) *
                 lumiere.rayon;
 
-
-            /*
-               Petit mouvement vertical
-               pour donner un vrai arc.
-            */
 
             const mouvementY =
                 Math.sin(
@@ -576,10 +505,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 mouvementY;
 
 
-            /* =============================================
-               SCINTILLEMENT
-               ============================================= */
-
             const scintillement =
                 0.8 +
                 Math.sin(
@@ -592,10 +517,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 puissance *
                 scintillement;
 
-
-            /* =============================================
-               HALO DE LUMIÈRE
-               ============================================= */
 
             const gradient =
                 ctx.createRadialGradient(
@@ -672,10 +593,6 @@ document.addEventListener("DOMContentLoaded", () => {
             ctx.fill();
 
 
-            /* =============================================
-               PETIT POINT BLANC
-               ============================================= */
-
             ctx.beginPath();
 
 
@@ -706,10 +623,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
 
-        /* =================================================
-           CONTINUER L'ANIMATION
-           ================================================= */
-
         animationConcert =
             requestAnimationFrame(
                 dessinerConcert
@@ -723,6 +636,8 @@ document.addEventListener("DOMContentLoaded", () => {
        ===================================================== */
 
     function lancerConcert() {
+
+        if (!canvas) return;
 
         concertActive = true;
 
@@ -742,8 +657,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function arreterTout() {
 
-        /* Arrêter les musiques */
-
         musiqueConfettis.pause();
 
         musiqueConfettis.currentTime = 0;
@@ -753,8 +666,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         musiqueConcert.currentTime = 0;
 
-
-        /* Arrêter les animations */
 
         confettiActive = false;
 
@@ -772,8 +683,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        /* Nettoyer le canvas */
-
         if (ctx) {
 
             ctx.clearRect(
@@ -788,8 +697,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
-
-        /* Cacher le bouton STOP */
 
         if (stopMusicBtn) {
 
@@ -819,13 +726,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 e.preventDefault();
 
-
-                /* Arrête ce qui pourrait déjà jouer */
-
                 arreterTout();
 
-
-                /* Choix aléatoire */
 
                 const choix =
                     Math.random();
@@ -841,8 +743,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     musiqueConfettis.play();
 
-
-                    /* Afficher STOP */
 
                     if (stopMusicBtn) {
 
@@ -871,8 +771,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     musiqueConcert.play();
 
-
-                    /* Afficher STOP */
 
                     if (stopMusicBtn) {
 
@@ -921,10 +819,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         canvas.width = window.innerWidth;
+
         canvas.height = window.innerHeight;
 
+
         if (concertActive) {
+
             creerLumieres();
+
         }
 
     });
@@ -936,14 +838,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelectorAll("tbody tr").forEach(tr => {
 
-        let texte = tr.innerText.toLowerCase();
+        let texte =
+            tr.innerText.toLowerCase();
+
 
         texte = texte
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "");
 
-        const tds = tr.querySelectorAll("td");
 
+        const tds =
+            tr.querySelectorAll("td");
 
 
         /* =================================================
@@ -967,11 +872,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (tds[i]) {
 
-                    tds[i].style.background = "white";
+                    tds[i].style.background =
+                        "white";
 
-                    tds[i].style.color = "green";
+                    tds[i].style.color =
+                        "green";
 
-                    tds[i].style.animation = "none";
+                    tds[i].style.animation =
+                        "none";
 
                 }
 
@@ -980,11 +888,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             /* MATCH */
 
-            let matchCell = tds[2];
+            let matchCell =
+                tds[2];
+
 
             if (matchCell) {
 
-                matchCell.classList.add("degrade");
+                matchCell.classList.add(
+                    "degrade"
+                );
 
 
                 if (domicile) {
@@ -993,6 +905,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         "linear-gradient(90deg, rgba(0,128,0,0.8), rgba(0,128,0,0.2), transparent)";
 
                 }
+
                 else {
 
                     matchCell.style.background =
@@ -1019,7 +932,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 tds[3].style.background =
                     "linear-gradient(90deg, red, darkred)";
 
-                tds[3].style.color = "white";
+                tds[3].style.color =
+                    "white";
 
             }
 
@@ -1028,7 +942,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 tds[3].style.background =
                     "linear-gradient(90deg, #A63DFF, #A53EFF)";
 
-                tds[3].style.color = "white";
+                tds[3].style.color =
+                    "white";
 
             }
 
@@ -1036,19 +951,389 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
-});
 
-const poteauxImg = document.querySelector('.poteaux-carres');
+    /* =====================================================
+       🏟️ POTEAUX CARRÉS
+       ===================================================== */
 
-poteauxImg.addEventListener('click', () => {
-    poteauxImg.src = 'gif/action poteaux carrés.gif'; 
-});
+    const poteauxImg =
+        document.querySelector(
+            ".poteaux-carres"
+        );
 
-const videoLinks = document.querySelectorAll('.video-link');
 
-videoLinks.forEach(img => {
-    img.addEventListener('click', () => {
-        const url = img.dataset.video;
-        window.open(url, '_blank'); 
+    if (poteauxImg) {
+
+        poteauxImg.addEventListener(
+            "click",
+            () => {
+
+                poteauxImg.src =
+                    "gif/action poteaux carrés.gif";
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       🎥 VIDÉOS
+       ===================================================== */
+
+    const videoLinks =
+        document.querySelectorAll(
+            ".video-link"
+        );
+
+
+    videoLinks.forEach(img => {
+
+        img.addEventListener(
+            "click",
+            () => {
+
+                const url =
+                    img.dataset.video;
+
+
+                if (url) {
+
+                    window.open(
+                        url,
+                        "_blank"
+                    );
+
+                }
+
+            }
+        );
+
     });
+
+
+    /* =====================================================
+       📸 GALERIE DES MATCHS
+       ===================================================== */
+
+    const popupGalerie =
+        document.getElementById(
+            "galerie-popup"
+        );
+
+    const imageGalerie =
+        document.getElementById(
+            "image-galerie"
+        );
+
+    const fermerGalerie =
+        document.getElementById(
+            "fermer-galerie"
+        );
+
+    const precedent =
+        document.getElementById(
+            "precedent"
+        );
+
+    const suivant =
+        document.getElementById(
+            "suivant"
+        );
+
+    const compteur =
+        document.getElementById(
+            "compteur"
+        );
+
+
+    let imagesGalerie = [];
+
+    let indexGalerie = 0;
+
+
+    /* =====================================================
+       AFFICHER IMAGE
+       ===================================================== */
+
+    function afficherImageGalerie() {
+
+        if (
+            !imageGalerie ||
+            imagesGalerie.length === 0
+        ) {
+
+            return;
+
+        }
+
+
+        imageGalerie.src =
+            imagesGalerie[indexGalerie].src;
+
+
+        compteur.textContent =
+            (indexGalerie + 1) +
+            " / " +
+            imagesGalerie.length;
+
+    }
+
+
+    /* =====================================================
+       OUVRIR LA GALERIE
+       ===================================================== */
+
+    document
+        .querySelectorAll(".galerie-match")
+        .forEach(galerie => {
+
+            const photoPrincipale =
+                galerie.querySelector(
+                    ".photo-match"
+                );
+
+
+            const photosCachees =
+                galerie.querySelectorAll(
+                    ".photos-cachees img"
+                );
+
+
+            if (!photoPrincipale) {
+
+                return;
+
+            }
+
+
+            photoPrincipale.addEventListener(
+                "click",
+                () => {
+
+                    imagesGalerie = [
+
+                        photoPrincipale,
+
+                        ...photosCachees
+
+                    ];
+
+
+                    indexGalerie = 0;
+
+
+                    afficherImageGalerie();
+
+
+                    if (popupGalerie) {
+
+                        popupGalerie.classList.add(
+                            "active"
+                        );
+
+                    }
+
+                }
+            );
+
+        });
+
+
+    /* =====================================================
+       IMAGE SUIVANTE
+       ===================================================== */
+
+    if (suivant) {
+
+        suivant.addEventListener(
+            "click",
+            e => {
+
+                e.stopPropagation();
+
+
+                if (
+                    imagesGalerie.length === 0
+                ) {
+
+                    return;
+
+                }
+
+
+                indexGalerie++;
+
+
+                if (
+                    indexGalerie >=
+                    imagesGalerie.length
+                ) {
+
+                    indexGalerie = 0;
+
+                }
+
+
+                afficherImageGalerie();
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       IMAGE PRÉCÉDENTE
+       ===================================================== */
+
+    if (precedent) {
+
+        precedent.addEventListener(
+            "click",
+            e => {
+
+                e.stopPropagation();
+
+
+                if (
+                    imagesGalerie.length === 0
+                ) {
+
+                    return;
+
+                }
+
+
+                indexGalerie--;
+
+
+                if (indexGalerie < 0) {
+
+                    indexGalerie =
+                        imagesGalerie.length - 1;
+
+                }
+
+
+                afficherImageGalerie();
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       ❌ FERMER AVEC X
+       ===================================================== */
+
+    if (fermerGalerie) {
+
+        fermerGalerie.addEventListener(
+            "click",
+            e => {
+
+                e.stopPropagation();
+
+
+                if (popupGalerie) {
+
+                    popupGalerie.classList.remove(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       CLIQUER SUR LE FOND POUR FERMER
+       ===================================================== */
+
+    if (popupGalerie) {
+
+        popupGalerie.addEventListener(
+            "click",
+            e => {
+
+                if (
+                    e.target === popupGalerie
+                ) {
+
+                    popupGalerie.classList.remove(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       ⌨️ CLAVIER
+       ===================================================== */
+
+    document.addEventListener(
+        "keydown",
+        e => {
+
+            if (!popupGalerie) {
+
+                return;
+
+            }
+
+
+            if (
+                !popupGalerie.classList.contains(
+                    "active"
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            if (e.key === "ArrowRight") {
+
+                if (suivant) {
+
+                    suivant.click();
+
+                }
+
+            }
+
+
+            if (e.key === "ArrowLeft") {
+
+                if (precedent) {
+
+                    precedent.click();
+
+                }
+
+            }
+
+
+            if (e.key === "Escape") {
+
+                popupGalerie.classList.remove(
+                    "active"
+                );
+
+            }
+
+        }
+    );
+
 });
