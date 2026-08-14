@@ -338,6 +338,21 @@ ul.dates li {
     min-width: 50px;         
 }
 
+.dates a {
+    color: inherit;           /* garde la couleur actuelle */
+    text-decoration: none;    /* enlève le souligné */
+    font-family: inherit;     /* garde ta police */
+    font-size: inherit;       /* garde la taille */
+    font-weight: inherit;     /* garde le style */
+}
+
+.dates a:visited {
+    color: inherit;           /* évite le violet après clic */
+}
+
+.dates a:hover {
+    color: #C6A96B;           /* option : effet au survol */
+}
 /* =========================================================
    CARTES
    ========================================================= */
