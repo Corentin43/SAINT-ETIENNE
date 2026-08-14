@@ -174,11 +174,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 color = "green";
 
-            } else if (colorRand < 0.8) {
+            }
+
+            else if (colorRand < 0.8) {
 
                 color = "gold";
 
-            } else {
+            }
+
+            else {
 
                 color = "white";
 
@@ -418,6 +422,8 @@ document.addEventListener("DOMContentLoaded", () => {
             ) / 1000;
 
 
+        /* Fond noir */
+
         ctx.clearRect(
 
             0,
@@ -443,6 +449,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         );
 
+
+        /* Lumières */
 
         lumieres.forEach((lumiere, index) => {
 
@@ -473,6 +481,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
 
+
+            /* Mouvement */
 
             lumiere.angle +=
                 lumiere.vitesse;
@@ -505,6 +515,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 mouvementY;
 
 
+            /* Scintillement */
+
             const scintillement =
                 0.8 +
                 Math.sin(
@@ -517,6 +529,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 puissance *
                 scintillement;
 
+
+            /* Halo */
 
             const gradient =
                 ctx.createRadialGradient(
@@ -592,6 +606,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             ctx.fill();
 
+
+            /* Petit point blanc */
 
             ctx.beginPath();
 
@@ -818,9 +834,11 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        canvas.width = window.innerWidth;
+        canvas.width =
+            window.innerWidth;
 
-        canvas.height = window.innerHeight;
+        canvas.height =
+            window.innerHeight;
 
 
         if (concertActive) {
@@ -924,7 +942,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (tds[3]) {
 
-            tds[3].classList.add("degrade");
+            tds[3].classList.add(
+                "degrade"
+            );
 
 
             if (texte.includes("amical")) {
@@ -1021,25 +1041,30 @@ document.addEventListener("DOMContentLoaded", () => {
             "galerie-popup"
         );
 
+
     const imageGalerie =
         document.getElementById(
             "image-galerie"
         );
+
 
     const fermerGalerie =
         document.getElementById(
             "fermer-galerie"
         );
 
+
     const precedent =
         document.getElementById(
             "precedent"
         );
 
+
     const suivant =
         document.getElementById(
             "suivant"
         );
+
 
     const compteur =
         document.getElementById(
@@ -1072,10 +1097,14 @@ document.addEventListener("DOMContentLoaded", () => {
             imagesGalerie[indexGalerie].src;
 
 
-        compteur.textContent =
-            (indexGalerie + 1) +
-            " / " +
-            imagesGalerie.length;
+        if (compteur) {
+
+            compteur.textContent =
+                (indexGalerie + 1) +
+                " / " +
+                imagesGalerie.length;
+
+        }
 
     }
 
@@ -1335,5 +1364,166 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
     );
+
+
+    /* =====================================================
+       🟢🔴🟠 COULEUR AUTOMATIQUE DES SCORES ASSE
+       ===================================================== */
+
+    document
+        .querySelectorAll(".card-text h3")
+        .forEach(titre => {
+
+            const texte =
+                titre.textContent.trim();
+
+
+            /*
+               Cherche automatiquement un score :
+
+               0-4
+               2-1
+               3-0
+               1 - 1
+               etc.
+            */
+
+            const score =
+                texte.match(
+                    /(\d+)\s*-\s*(\d+)/
+                );
+
+
+            /* Aucun score trouvé */
+
+            if (!score) {
+
+                return;
+
+            }
+
+
+            const butEquipe1 =
+                parseInt(score[1]);
+
+
+            const butEquipe2 =
+                parseInt(score[2]);
+
+
+            /*
+               Cherche où se trouve ASSE
+            */
+
+            const texteNormalise =
+                texte.toUpperCase();
+
+
+            const positionASSE =
+                texteNormalise.indexOf("ASSE");
+
+
+            const positionScore =
+                texte.indexOf(
+                    score[0]
+                );
+
+
+            /*
+               Variables
+            */
+
+            let butsASSE;
+
+            let butsAdversaire;
+
+
+            /*
+               ASSE est à droite :
+
+               Lausanne-Sport 0-4 ASSE
+
+               Donc :
+               adversaire = 0
+               ASSE = 4
+            */
+
+            if (
+                positionASSE >
+                positionScore
+            ) {
+
+                butsAdversaire =
+                    butEquipe1;
+
+                butsASSE =
+                    butEquipe2;
+
+            }
+
+
+            /*
+               ASSE est à gauche :
+
+               ASSE 2-1 Lausanne-Sport
+
+               Donc :
+               ASSE = 2
+               adversaire = 1
+            */
+
+            else {
+
+                butsASSE =
+                    butEquipe1;
+
+                butsAdversaire =
+                    butEquipe2;
+
+            }
+
+
+            /* =================================================
+               🟢 VICTOIRE
+               ================================================= */
+
+            if (
+                butsASSE >
+                butsAdversaire
+            ) {
+
+                titre.style.color =
+                    "green";
+
+            }
+
+
+            /* =================================================
+               🔴 DÉFAITE
+               ================================================= */
+
+            else if (
+                butsASSE <
+                butsAdversaire
+            ) {
+
+                titre.style.color =
+                    "red";
+
+            }
+
+
+            /* =================================================
+               🟠 MATCH NUL
+               ================================================= */
+
+            else {
+
+                titre.style.color =
+                    "orange";
+
+            }
+
+        });
 
 });
